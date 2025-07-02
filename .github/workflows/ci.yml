@@ -25,7 +25,6 @@ jobs:
 
     - name: Run Django migrations
       run: python manage.py migrate
-      working-directory: ./
 
     - name: Run Django tests
       run: python manage.py test
