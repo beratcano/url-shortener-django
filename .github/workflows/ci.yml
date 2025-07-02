@@ -25,11 +25,11 @@ jobs:
 
     - name: Run Django migrations
       run: python manage.py migrate
-      working-directory: ./url_shortener
+      working-directory: ./
 
     - name: Run Django tests
       run: python manage.py test
-      working-directory: ./url_shortener
+      working-directory: ./
 
     - name: Build Docker image
       run: docker build -t url-shortener-django .
