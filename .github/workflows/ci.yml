@@ -8,6 +8,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >- 
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - name: Checkout code
@@ -31,12 +45,22 @@ jobs:
       working-directory: .
       env:
         DJANGO_SETTINGS_MODULE: url_shortener.settings
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+        POSTGRES_DB: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
 
     - name: Run Django tests
       run: python manage.py test
       working-directory: .
       env:
-        DJANGO_SETTINGS_MODULE: url_shortener.settings/
+        DJANGO_SETTINGS_MODULE: url_shortener.settings
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+        POSTGRES_DB: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
 
     - name: Build Docker image
       run: docker build -t url-shortener-django .
